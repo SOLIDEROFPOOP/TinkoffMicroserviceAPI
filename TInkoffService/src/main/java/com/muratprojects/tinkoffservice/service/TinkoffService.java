@@ -1,6 +1,7 @@
 package com.muratprojects.tinkoffservice.service;
 
 import com.muratprojects.tinkoffservice.exception.StockNotFoundException;
+import com.muratprojects.tinkoffservice.model.Currency;
 import com.muratprojects.tinkoffservice.model.Stock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,12 @@ public class TinkoffService implements StockService{
         if (list.isEmpty()){
             throw new StockNotFoundException(String.format("Stock %S not found", ticker));
         }
+        var item = list.get(0);
+        return new Stock(
+                item.getTicker(),
+                item.getFigi(),
+                item.getName(),
+                item.getType().getValue(),
+                Currency.valueOf(item.getCurrency().getValue()), "TINKOFF");
     }
 }
